@@ -18,9 +18,6 @@ for (const [name, data] of Object.entries(files)) {
   if (!normalized.startsWith('b-tech-phone/')) continue
   const relative = normalized.slice('b-tech-phone/'.length)
   if (!relative || relative.endsWith('/')) continue
-
-  // Keep the repository's build package.json so build-time dependencies
-  // (including eslint-config-next and fflate) are not overwritten.
   if (relative === 'package.json') continue
 
   const destination = path.join(root, relative)
@@ -36,4 +33,23 @@ if (fs.existsSync(productPage)) {
   fs.writeFileSync(productPage, source)
 }
 
-console.log(`[restore-v2] restored ${restored} source files`)
+const eslintConfig = path.join(root, 'eslint.config.mjs')
+if (fs.existsSync(eslintConfig)) {
+  let source = fs.readFileSync(eslintConfig, 'utf8')
+  source = source.replace("eslint-config-next/core-web-vitals", "eslint-config-next/core-web-vitals.js")
+  source = source.replace("eslint-config-next/typescript", "eslint-config-next/typescript.js")
+  fs.writeFileSync(eslintConfig, source)
+}
+
+const serverFile = path.join(root, 'lib/supabase/server.ts')
+if (fs.existsSync(serverFile)) {
+  let source = fs.readFileSync(serverFile, 'utf8')
+  source = source.replace(
+    "import { cookies } from 'next/headers'",
+    "import { cookies } from 'next/headers'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
+  )
+  source = source.replace('setAll(cookiesToSet) {', 'setAll(cookiesToSet: CookieToSet[]) {')
+  fs.writeFileSync(serverFile, source)
+}
+
+console.log(`[restore-v2] restored ${restored} source files and applied build compatibility patches`)
