@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Cart(){return <main className="container" style={{padding:'50px 0'}}><h1>Keranjang</h1><p className="muted">Keranjang checkout akan digunakan pada alur pembelian B-Tech Phone.</p><Link className="btn primary" href="/produk">Kembali ke katalog</Link></main>}
