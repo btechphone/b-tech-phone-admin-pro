@@ -1,0 +1,2 @@
+import Link from 'next/link'
+export default function Admin(){return <main className="container" style={{padding:'50px 0'}}><h1>Admin B-Tech Phone</h1><p className="muted">Dashboard admin terhubung ke Supabase akan dikelola melalui modul admin.</p><div style={{display:'flex',gap:10,flexWrap:'wrap'}}><Link className="btn primary" href="/produk">Catalog</Link><Link className="btn ghost" href="/auth/login">Login Admin</Link></div></main>}
