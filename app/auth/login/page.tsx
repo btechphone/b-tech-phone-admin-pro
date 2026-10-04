@@ -1,0 +1,1 @@
+export default function Login(){return <main className="container" style={{padding:'50px 0',maxWidth:520}}><h1>Login Admin</h1><p className="muted">Halaman autentikasi Supabase siap dikembangkan.</p></main>}
