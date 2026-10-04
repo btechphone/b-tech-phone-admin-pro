@@ -19,7 +19,6 @@ for (const [name, data] of Object.entries(files)) {
   const relative = normalized.slice('b-tech-phone/'.length)
   if (!relative || relative.endsWith('/')) continue
   if (relative === 'package.json') continue
-
   const destination = path.join(root, relative)
   fs.mkdirSync(path.dirname(destination), { recursive: true })
   fs.writeFileSync(destination, data)
@@ -33,17 +32,17 @@ if (fs.existsSync(productPage)) {
   fs.writeFileSync(productPage, source)
 }
 
-// The v2 archive contains a legacy flat-config import shape.
-// Keep deployment lint deterministic with an empty ESLint 9 flat config.
-fs.writeFileSync(path.join(root, 'eslint.config.mjs'), 'export default []\\n')
+fs.writeFileSync(path.join(root, 'eslint.config.mjs'), 'export default []')
 
 const serverFile = path.join(root, 'lib/supabase/server.ts')
 if (fs.existsSync(serverFile)) {
   let source = fs.readFileSync(serverFile, 'utf8')
-  source = source.replace(
-    "import { cookies } from 'next/headers'",
-    "import { cookies } from 'next/headers'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
-  )
+  if (!source.includes('type CookieToSet')) {
+    source = source.replace(
+      "import { cookies } from 'next/headers'",
+      "import { cookies } from 'next/headers'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
+    )
+  }
   source = source.replace('setAll(cookiesToSet) {', 'setAll(cookiesToSet: CookieToSet[]) {')
   fs.writeFileSync(serverFile, source)
 }
@@ -51,12 +50,10 @@ if (fs.existsSync(serverFile)) {
 const middlewareFile = path.join(root, 'middleware.ts')
 if (fs.existsSync(middlewareFile)) {
   let source = fs.readFileSync(middlewareFile, 'utf8')
-  if (!source.includes('type CookieToSet')) {
-    source = source.replace(
-      "import { NextResponse } from 'next/server'",
-      "import { NextResponse } from 'next/server'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
-    )
-  }
+  source = source.replace(
+    "import { type NextRequest, NextResponse } from 'next/server'",
+    "import { type NextRequest, NextResponse } from 'next/server'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
+  )
   source = source.replace('setAll: (cookiesToSet) => {', 'setAll: (cookiesToSet: CookieToSet[]) => {')
   fs.writeFileSync(middlewareFile, source)
 }
