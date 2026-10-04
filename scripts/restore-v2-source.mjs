@@ -16,14 +16,20 @@ let restored = 0
 for (const [name, data] of Object.entries(files)) {
   const normalized = name.replace(/\\/g, '/')
   if (!normalized.startsWith('b-tech-phone/')) continue
-
   const relative = normalized.slice('b-tech-phone/'.length)
   if (!relative || relative.endsWith('/')) continue
-
   const destination = path.join(root, relative)
   fs.mkdirSync(path.dirname(destination), { recursive: true })
   fs.writeFileSync(destination, data)
   restored++
+}
+
+const productPage = path.join(root, 'app/admin/produk/page.tsx')
+if (fs.existsSync(productPage)) {
+  let source = fs.readFileSync(productPage, 'utf8')
+  source = source.replace('brand?:{name:string}', 'brand?:{name:string}|{name:string}[]')
+  source = source.replace('r.brand?.name||', 'Array.isArray(r.brand)?(r.brand[0]?.name||\'\'):(r.brand?.name||\'\')||')
+  fs.writeFileSync(productPage, source)
 }
 
 console.log(`[restore-v2] restored ${restored} source files`)
