@@ -1,0 +1,2 @@
+import {getProducts} from '@/lib/server-catalog';import ProductCard from '@/components/ProductCard'
+export default async function Products(){const products=await getProducts();return <main className="container" style={{padding:'40px 0'}}><h1>Katalog Produk</h1><p className="muted">Samsung, Apple, vivo, OPPO, Infinix, Xiaomi, realme, Huawei, itel, TECNO dan nubia.</p><div className="grid-products" style={{marginTop:25}}>{products.map((p:any)=><ProductCard key={p.id} p={p}/>)}</div></main>}
