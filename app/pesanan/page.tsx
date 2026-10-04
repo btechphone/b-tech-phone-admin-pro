@@ -1,0 +1,1 @@
+export default function Orders(){return <main className="container" style={{padding:'50px 0'}}><h1>Pesanan</h1><p className="muted">Login diperlukan untuk melihat pesanan pelanggan.</p></main>}
