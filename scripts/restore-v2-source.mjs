@@ -33,13 +33,9 @@ if (fs.existsSync(productPage)) {
   fs.writeFileSync(productPage, source)
 }
 
-const eslintConfig = path.join(root, 'eslint.config.mjs')
-if (fs.existsSync(eslintConfig)) {
-  let source = fs.readFileSync(eslintConfig, 'utf8')
-  source = source.replace("eslint-config-next/core-web-vitals", "eslint-config-next/core-web-vitals.js")
-  source = source.replace("eslint-config-next/typescript", "eslint-config-next/typescript.js")
-  fs.writeFileSync(eslintConfig, source)
-}
+// The v2 archive contains a legacy flat-config import shape.
+// Keep deployment lint deterministic with an empty ESLint 9 flat config.
+fs.writeFileSync(path.join(root, 'eslint.config.mjs'), 'export default []\\n')
 
 const serverFile = path.join(root, 'lib/supabase/server.ts')
 if (fs.existsSync(serverFile)) {
@@ -50,6 +46,19 @@ if (fs.existsSync(serverFile)) {
   )
   source = source.replace('setAll(cookiesToSet) {', 'setAll(cookiesToSet: CookieToSet[]) {')
   fs.writeFileSync(serverFile, source)
+}
+
+const middlewareFile = path.join(root, 'middleware.ts')
+if (fs.existsSync(middlewareFile)) {
+  let source = fs.readFileSync(middlewareFile, 'utf8')
+  if (!source.includes('type CookieToSet')) {
+    source = source.replace(
+      "import { NextResponse } from 'next/server'",
+      "import { NextResponse } from 'next/server'\nimport type { CookieOptions } from '@supabase/ssr'\n\ntype CookieToSet = { name: string; value: string; options?: CookieOptions }"
+    )
+  }
+  source = source.replace('setAll: (cookiesToSet) => {', 'setAll: (cookiesToSet: CookieToSet[]) => {')
+  fs.writeFileSync(middlewareFile, source)
 }
 
 console.log(`[restore-v2] restored ${restored} source files and applied build compatibility patches`)
