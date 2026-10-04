@@ -8,4 +8,4 @@ Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in Vercel.
 Uses the btp_* Supabase schema.
 
 ## Deployment
-Supabase runtime environment has been configured for Production and Preview.
+Supabase runtime environment is configured for Production and Preview.
