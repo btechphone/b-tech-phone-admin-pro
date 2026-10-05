@@ -61,20 +61,8 @@ if (fs.existsSync(middlewareFile)) {
 console.log(`[restore-v2] restored ${restored} source files and applied build compatibility patches`)
 
 
+
 const productCard = path.join(root, 'components/ProductCard.tsx')
 if (fs.existsSync(productCard)) {
-  fs.writeFileSync(productCard, `import Link from 'next/link'
-
-export default function ProductCard({p}:any){
- const variants=p.btp_product_variants||[]
- const pricedVariants=variants.filter((x:any)=>Number(x.price)>0)
- const lowestPrice=pricedVariants.length?Math.min(...pricedVariants.map((x:any)=>Number(x.price))):0
- const img=p.image_url||p.gallery_urls?.[0]
- const format=(n:number)=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n)
- return <article className="card" style={{overflow:'hidden'}}>
-  <Link href={'/produk/'+p.slug}>{img?<img src={img} alt={p.name} style={{width:'100%',aspectRatio:'1/1',objectFit:'cover'}}/>:<div style={{aspectRatio:'1/1',display:'grid',placeItems:'center',background:'#111827'}} className="muted">B-TECH</div>}</Link>
-  <div style={{padding:15}}><div className="muted" style={{fontSize:12}}>{p.btp_brands?.name||p.category}</div><h3 style={{margin:'5px 0 8px'}}>{p.name}</h3><div className="muted" style={{fontSize:13}}>{variants.length?(`${variants.length} varian tersedia`):'Pilih varian'}</div><strong style={{display:'block',marginTop:10}}>{lowestPrice?`Mulai ${format(lowestPrice)}`:'Harga belum tersedia'}</strong></div>
- </article>
-}
-`)
+  fs.writeFileSync(productCard, "import Link from 'next/link'\n\nexport default function ProductCard({p}:any){\n const variants=p.btp_product_variants||[]\n const pricedVariants=variants.filter((x:any)=>Number(x.price)>0)\n const lowestPrice=pricedVariants.length?Math.min(...pricedVariants.map((x:any)=>Number(x.price))):0\n const img=p.image_url||p.gallery_urls?.[0]\n const format=(n:number)=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n)\n return <article className=\"card\" style={{overflow:'hidden'}}>\n  <Link href={'/produk/'+p.slug}>{img?<img src={img} alt={p.name} style={{width:'100%',aspectRatio:'1/1',objectFit:'cover'}}/>:<div style={{aspectRatio:'1/1',display:'grid',placeItems:'center',background:'#111827'}} className=\"muted\">B-TECH</div>}</Link>\n  <div style={{padding:15}}><div className=\"muted\" style={{fontSize:12}}>{p.btp_brands?.name||p.category}</div><h3 style={{margin:'5px 0 8px'}}>{p.name}</h3><div className=\"muted\" style={{fontSize:13}}>{variants.length?(`${variants.length} varian tersedia`):'Pilih varian'}</div><strong style={{display:'block',marginTop:10}}>{lowestPrice?`Mulai ${format(lowestPrice)}`:'Harga belum tersedia'}</strong></div>\n </article>\n}")
 }
