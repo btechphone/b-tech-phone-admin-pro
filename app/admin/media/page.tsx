@@ -25,7 +25,7 @@ export default function ProductMediaAdmin(){
    const {data,error}=await supabase.functions.invoke('btp-import-official-image',{body:{product_id:product.id,asset_url:assetUrl.trim(),source_url:sourceUrl.trim(),alt_text:alt||product.name,sort_order:nextSort,is_primary:primary}})
    if(error)throw error
    if(data?.error)throw new Error(data.error)
-   setSourceUrl('');setAssetUrl('');setAlt('');setExact(false);setPrimary(false);setMessage(data?.asset_url?'Asset resmi berhasil diimpor para Storage dan database.':'Asset resmi berhasil diimpor ke Storage dan database.');await loadImages(product.id)
+   setSourceUrl('');setAssetUrl('');setAlt('');setExact(false);setPrimary(false);setMessage(data?.asset_url?'Asset resmi berhasil diimpor ke Storage dan database.':'Asset resmi berhasil diimpor ke Storage dan database.');await loadImages(product.id)
   }catch(e:any){setMessage(e?.message||'Import asset gagal.')}finally{setBusy(false)}
  }
  async function upload(){
