@@ -7,3 +7,5 @@ export function updateCart(variantId:string,quantity:number){const items=getCart
 export function removeFromCart(variantId:string){return saveCart(getCart().filter(x=>x.variantId!==variantId))}
 export function clearCart(){return saveCart([])}
 export function cartTotal(items=getCart()){return items.reduce((s,x)=>s+x.price*x.quantity,0)}
+
+export function cartCount(items=getCart()){return items.reduce((s,x)=>s+x.quantity,0)}
