@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/restore-v2-source.mjs",
+    "prebuild": "node scripts/restore-v2-source.mjs && node scripts/patch-v3-source.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ."
