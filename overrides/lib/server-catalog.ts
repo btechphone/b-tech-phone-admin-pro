@@ -10,3 +10,7 @@ export async function getProducts(){
   if(error)throw error
   return data||[]
 }
+
+export async function getCatalog(){
+  return {products:await getProducts()}
+}
