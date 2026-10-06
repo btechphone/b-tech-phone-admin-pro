@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'\nimport AdminNav from '../AdminNav'
 
 const money = (v:number) => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(v)
 
@@ -16,7 +16,7 @@ export default function AdminCustomers(){
  const filtered=customers.filter(c=>[c.full_name,c.phone,c.email,c.city,c.province].join(' ').toLowerCase().includes(q.toLowerCase()))
  const stats=(id:string)=>{const os=orders.filter(o=>o.customer_id===id);return {count:os.length,total:os.reduce((s,o)=>s+Number(o.total_amount||0),0)}}
  const selectedOrders=selected?orders.filter(o=>o.customer_id===selected.id):[]
- return <main className="container" style={{padding:'36px 0 60px'}}>
+ return <main className="container" style={{padding:'36px 0 60px'}}><AdminNav current="pelanggan" />
   <div style={{display:'flex',justifyContent:'space-between',gap:18,alignItems:'flex-end',flexWrap:'wrap'}}><div><p className="muted">B-TECH PHONE · ADMIN</p><h1 style={{marginBottom:6}}>Pelanggan</h1><p className="muted">Kelola profil pelanggan, alamat, riwayat order, dan nilai belanja.</p></div><Link className="btn ghost" href="/admin">← Dashboard</Link></div>
   {error&&<div style={{marginTop:20,padding:14,borderRadius:12,border:'1px solid #f1b8b8'}}>{error}</div>}
   {loading?<p className="muted" style={{marginTop:28}}>Memuat data pelanggan…</p>:<>
