@@ -18,7 +18,7 @@ export default function Orders(){
   const path=`${user.id}/${paymentId}-${Date.now()}.${ext(file.name)}`
   const {error:uploadError}=await supabase.storage.from('btp-payment-proofs').upload(path,file,{contentType:file.type,upsert:false})
   if(uploadError){setBusy(null);return setMsg('Upload gagal: '+uploadError.message)}
-  const {error}=await supabase.from('btp_payments').update({proof_url:path,status:'submitted'}).eq('id',paymentId)
+  const {error}=await supabase.rpc('btp_submit_payment_proof',{p_payment_id:paymentId,p_proof_url:path})
   if(error){await supabase.storage.from('btp-payment-proofs').remove([path]);setMsg('Gagal menyimpan bukti: '+error.message)}else{setMsg('Bukti pembayaran berhasil dikirim. Menunggu verifikasi admin.');setFiles({...files,[paymentId]:undefined as any});await load()}
   setBusy(null)
  }
