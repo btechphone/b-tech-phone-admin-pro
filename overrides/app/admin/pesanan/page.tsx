@@ -1,6 +1,7 @@
 'use client'
 import {useEffect,useState} from 'react'
-import {createClient} from '@/lib/supabase/client'\nimport AdminNav from '../AdminNav'
+import {createClient} from '@/lib/supabase/client'
+import AdminNav from '../AdminNav'
 const statuses=['waiting_payment','payment_received','processing','packed','shipped','completed','cancelled']
 const labels:any={waiting_payment:'Menunggu Pembayaran',payment_received:'Pembayaran Diterima',processing:'Diproses',packed:'Dikemas',shipped:'Dikirim',completed:'Selesai',cancelled:'Dibatalkan'}
 const money=(n:number)=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n)
