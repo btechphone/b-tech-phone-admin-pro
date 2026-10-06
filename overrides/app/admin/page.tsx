@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import AdminNav from './AdminNav'
 
 const money = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value)
 const statusLabel: Record<string, string> = {
@@ -62,6 +63,7 @@ export default function AdminDashboard() {
   ]
 
   return <main className="container" style={{ padding: '36px 0 60px' }}>
+    <AdminNav current="dashboard" />
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 20, alignItems: 'flex-end', flexWrap: 'wrap' }}>
       <div><p className="muted">B-TECH PHONE · ADMIN</p><h1 style={{ marginBottom: 6 }}>Dashboard Analytics</h1><p className="muted">Pantau omzet, order, pembayaran, pengiriman, dan kesehatan stok dari satu tempat.</p></div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}><Link className="btn ghost" href="/admin/pembayaran">Pembayaran</Link><Link className="btn ghost" href="/admin/pesanan">Pesanan</Link><Link className="btn primary" href="/admin/inventory">Kelola Stok</Link></div>
