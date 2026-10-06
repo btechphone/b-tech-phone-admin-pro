@@ -3,7 +3,8 @@ import {getProducts} from '@/lib/server-catalog'
 import ProductCard from '@/components/ProductCard'
 
 const brandStyle:Record<string,{bg:string;fg:string}>={samsung:{bg:'#e9f2ff',fg:'#1428a0'},apple:{bg:'#f1f1f3',fg:'#111827'},vivo:{bg:'#e8fff4',fg:'#0b8f62'},oppo:{bg:'#eafbea',fg:'#178b43'},xiaomi:{bg:'#fff1e5',fg:'#d85b14'},realme:{bg:'#fff4d8',fg:'#b56a00'},infinix:{bg:'#eaf6ff',fg:'#0879b7'},huawei:{bg:'#ffecef',fg:'#b51f43'},tecno:{bg:'#eaf7ff',fg:'#0877a8'},itel:{bg:'#eff0ff',fg:'#4a4fb4'},nubia:{bg:'#ffecef',fg:'#9b1634'}}
-function BrandMark({name,slug}:{name:string;slug:string}){const s=brandStyle[slug]||{bg:'#eef2f7',fg:'#172033'};return <div className="brand-mark" style={{background:s.bg,color:s.fg}}><span>{name.slice(0,1).toUpperCase()}</span></div>}
+const brandIcon:Record<string,string>={samsung:'samsung',apple:'apple',vivo:'vivo',oppo:'oppo',xiaomi:'xiaomi',realme:'realme',infinix:'infinix',huawei:'huawei',tecno:'tecno',itel:'itel',nubia:'nubia'}
+function BrandMark({name,slug}:{name:string;slug:string}){const s=brandStyle[slug]||{bg:'#eef2f7',fg:'#172033'};const icon=brandIcon[slug];return <div className="brand-mark" style={{background:s.bg,color:s.fg}}>{icon?<img src={'https://cdn.simpleicons.org/'+icon} alt={name+' logo'} loading="lazy"/>:<span>{name.slice(0,1).toUpperCase()}</span>}</div>}
 export default async function Products({searchParams}:{searchParams:Promise<{brand?:string}>}){
  const products=await getProducts()
  const params=await searchParams
