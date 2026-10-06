@@ -8,7 +8,11 @@ export async function getProducts(){
     .order('is_featured',{ascending:false})
     .order('name')
   if(error)throw error
-  return data||[]
+  return (data||[]).map((p:any)=>({
+    ...p,
+    brand:Array.isArray(p.btp_brands)?p.btp_brands[0]:p.btp_brands,
+    variants:p.btp_product_variants||[]
+  }))
 }
 
 export async function getCatalog(){
