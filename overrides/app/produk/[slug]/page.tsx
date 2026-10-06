@@ -13,7 +13,7 @@ export default async function ProductPage({params}:any){
  if(error)throw error
  if(!product)notFound()
 
- const variants=(product.btp_product_variants||[]).filter((v:any)=>v.is_active!==false)
+ const variants=(product.btp_product_variants||[]).filter((v:any)=>v.is_active!==false&&Number(v.price)>0)
  const ids=variants.map((v:any)=>v.id)
  let availability:any[]=[]
  if(ids.length){
