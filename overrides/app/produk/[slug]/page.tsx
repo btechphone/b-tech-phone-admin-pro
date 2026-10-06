@@ -17,7 +17,7 @@ export default async function ProductPage({params}:any){
  const ids=variants.map((v:any)=>v.id)
  let availability:any[]=[]
  if(ids.length){
-   const {data,error:availabilityError}=await s.rpc('btp_get_public_variant_availability',{p_variant_ids:ids})
+   const {data,error:availabilityError}=await s.from('btp_public_variant_availability').select('variant_id,available').in('variant_id',ids)
    if(availabilityError)throw availabilityError
    availability=data||[]
  }
