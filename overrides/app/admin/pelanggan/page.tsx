@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'\nimport AdminNav from '../AdminNav'
+import { createClient } from '@/lib/supabase/client'
+import AdminNav from '../AdminNav'
 
 const money = (v:number) => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(v)
 
