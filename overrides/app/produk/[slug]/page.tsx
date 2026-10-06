@@ -6,7 +6,7 @@ export default async function ProductPage({params}:any){
  const {slug}=await params
  const s=await createClient()
  const {data:product,error}=await s.from('btp_products')
-   .select('id,name,slug,category,short_description,description,image_url,gallery_urls,btp_brands!inner(id,name,slug),btp_product_images(id,storage_path,alt_text,sort_order),btp_product_variants(id,sku,variant_name,color,storage,ram,price,compare_at_price)')
+   .select('id,name,slug,category,short_description,description,image_url,gallery_urls,btp_brands!inner(id,name,slug),btp_product_images(id,storage_path,alt_text,sort_order),btp_product_variants(id,sku,variant_name,color,storage,ram,price,compare_at_price,is_active)')
    .eq('slug',slug)
    .eq('is_active',true)
    .maybeSingle()
