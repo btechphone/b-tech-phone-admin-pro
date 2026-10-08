@@ -1,10 +1,14 @@
 'use client'
 import {useState} from 'react'
 import Link from 'next/link'
+import {useSearchParams} from 'next/navigation'
 import {createClient} from '@/lib/supabase/client'
 
 export default function Signup(){
  const supabase=createClient();
+ const searchParams=useSearchParams()
+ const nextPath=searchParams.get('next')||''
+ const safeNext=nextPath.startsWith('/')?nextPath:'/produk'
  const [name,setName]=useState(''); const [phone,setPhone]=useState(''); const [email,setEmail]=useState(''); const [password,setPassword]=useState('');
  const [msg,setMsg]=useState(''); const [busy,setBusy]=useState(false);
  async function submit(e:React.FormEvent){
@@ -14,11 +18,12 @@ export default function Signup(){
   if(data.user&&data.session){
    const {error:e2}=await supabase.from('btp_customers').upsert({auth_user_id:data.user.id,full_name:name,phone},{onConflict:'auth_user_id'});
    if(e2){setMsg(e2.message);setBusy(false);return}
-   window.location.href='/produk';
+   window.location.href=safeNext;
   } else {
    setMsg('Akun berhasil dibuat. Silakan buka email konfirmasi, lalu klik tombol Konfirmasi Email.');
   }
   setBusy(false)
  }
- return <main className="container" style={{padding:'50px 0',maxWidth:560}}><div className="card" style={{padding:24}}><p className="muted">B-TECH PHONE</p><h1>Buat akun</h1><form onSubmit={submit} style={{display:'grid',gap:12}}><input required placeholder="Nama lengkap" value={name} onChange={e=>setName(e.target.value)} style={{padding:13,borderRadius:10}}/><input required placeholder="Nomor WhatsApp" value={phone} onChange={e=>setPhone(e.target.value)} style={{padding:13,borderRadius:10}}/><input required type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} style={{padding:13,borderRadius:10}}/><input required minLength={8} type="password" placeholder="Password minimal 8 karakter" value={password} onChange={e=>setPassword(e.target.value)} style={{padding:13,borderRadius:10}}/><button className="btn primary" disabled={busy}>{busy?'Membuat akun…':'Daftar'}</button></form>{msg&&<p style={{marginTop:12}}>{msg}</p>}<p className="muted" style={{marginTop:18}}>Sudah punya akun? <Link href="/auth/login">Masuk</Link></p></div></main>
+ const loginHref=safeNext!=='/produk'?'/auth/login?next='+encodeURIComponent(safeNext):'/auth/login'
+ return <main className="container" style={{padding:'50px 0',maxWidth:560}}><div className="card" style={{padding:24}}><p className="muted">B-TECH PHONE</p><h1>Buat akun</h1><form onSubmit={submit} style={{display:'grid',gap:12}}><input required placeholder="Nama lengkap" value={name} onChange={e=>setName(e.target.value)} style={{padding:13,borderRadius:10}}/><input required placeholder="Nomor WhatsApp" value={phone} onChange={e=>setPhone(e.target.value)} style={{padding:13,borderRadius:10}}/><input required type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} style={{padding:13,borderRadius:10}}/><input required minLength={8} type="password" placeholder="Password minimal 8 karakter" value={password} onChange={e=>setPassword(e.target.value)} style={{padding:13,borderRadius:10}}/><button className="btn primary" disabled={busy}>{busy?'Membuat akun…':'Daftar'}</button></form>{msg&&<p style={{marginTop:12}}>{msg}</p>}<p className="muted" style={{marginTop:18}}>Sudah punya akun? <Link href={loginHref}>Masuk</Link></p></div></main>
 }
