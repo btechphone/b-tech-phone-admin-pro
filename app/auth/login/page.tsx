@@ -12,13 +12,14 @@ export default function Login(){
  const [busy,setBusy]=useState(false)
  const [msg,setMsg]=useState('')
  const queryError=searchParams.get('error')
+ const nextPath=searchParams.get('next')||''
  const confirmationMsg=queryError==='confirmation_invalid'?'Link konfirmasi tidak valid. Silakan minta email konfirmasi baru.':queryError==='confirmation_failed'?'Konfirmasi email gagal atau link sudah kedaluwarsa. Silakan daftar ulang atau minta konfirmasi baru.':queryError==='customer_profile_failed'?'Email berhasil dikonfirmasi, tetapi profil pelanggan belum dapat dibuat. Silakan lanjut login dan hubungi admin bila masalah berlanjut.':''
  async function submit(e:React.FormEvent){
   e.preventDefault();setBusy(true);setMsg('')
   const {error}=await supabase.auth.signInWithPassword({email,password})
   if(error){setMsg(error.message);setBusy(false);return}
   const {data:isAdmin,error:adminError}=await supabase.rpc('btp_is_admin')
-  window.location.href=!adminError&&isAdmin?'/admin':'/produk'
+  window.location.href=!adminError&&isAdmin?'/admin':(nextPath.startsWith('/')?nextPath:'/produk')
  }
  return <main className="container" style={{padding:'50px 0',maxWidth:520}}>
   <div className="card" style={{padding:24}}>
