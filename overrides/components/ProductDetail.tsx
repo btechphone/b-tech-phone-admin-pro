@@ -7,7 +7,7 @@ export function ProductDetail({product}:any){
  const [id,setId]=useState(variants[0]?.id)
  const [active,setActive]=useState(0)
  const v=variants.find((x:any)=>x.id===id)
- const images=[...(product.btp_product_images||[])].sort((a:any,b:any)=>a.sort_order-b.sort_order).map((x:any)=>({url:`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/btp-product-images/${x.storage_path}`,alt:x.alt_text||product.name}))
+ const images=[...(product.btp_product_images||[])].sort((a:any,b:any)=>a.sort_order-b.sort_order).map((x:any)=>({url:x.asset_url||x.source_url||`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/btp-product-images/${x.storage_path}`,alt:x.alt_text||product.name}))
  if(product.image_url&&!images.length)images.push({url:product.image_url,alt:product.name})
  const formatPrice=(n:number)=>n>0?new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n):'Harga belum tersedia'
  return <div className="detail">
