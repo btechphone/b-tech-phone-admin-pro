@@ -14,8 +14,9 @@ export default async function Products({searchParams}:{searchParams:Promise<{bra
  const brands=Array.from(new Map(products.map((p:any)=>[p.brand?.slug,{name:p.brand?.name,slug:p.brand?.slug}])).values()).sort((a:any,b:any)=>a.name.localeCompare(b.name))
  let filtered=brandSlug?products.filter((p:any)=>p.brand?.slug===brandSlug):products
  if(query) filtered=filtered.filter((p:any)=>[p.name,p.brand?.name,p.short_description].filter(Boolean).some((v:any)=>String(v).toLocaleLowerCase('id-ID').includes(query)))
- if(sort==='price-asc') filtered=[...filtered].sort((a:any,b:any)=>Number(a.variants?.[0]?.price||a.btp_product_variants?.[0]?.price||0)-Number(b.variants?.[0]?.price||b.btp_product_variants?.[0]?.price||0))
- if(sort==='price-desc') filtered=[...filtered].sort((a:any,b:any)=>Number(b.variants?.[0]?.price||b.btp_product_variants?.[0]?.price||0)-Number(a.variants?.[0]?.price||a.btp_product_variants?.[0]?.price||0))
+ const priceForSort=(p:any,direction:'min'|'max')=>{const variants=p.variants?.length?p.variants:(p.btp_product_variants||[]);const prices=variants.map((v:any)=>Number(v.price)).filter((n:number)=>Number.isFinite(n)&&n>0);if(!prices.length)return direction==='min'?Number.MAX_SAFE_INTEGER:0;return direction==='min'?Math.min(...prices):Math.max(...prices)}
+ if(sort==='price-asc') filtered=[...filtered].sort((a:any,b:any)=>priceForSort(a,'min')-priceForSort(b,'min'))
+ if(sort==='price-desc') filtered=[...filtered].sort((a:any,b:any)=>priceForSort(b,'max')-priceForSort(a,'max'))
  const activeBrand=brands.find((b:any)=>b.slug===brandSlug)
  return <main className="catalog-page">
   <section className="catalog-hero"><div className="container">
