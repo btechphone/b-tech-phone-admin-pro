@@ -11,6 +11,9 @@ const brands = [
   { name: 'Infinix', slug: 'infinix', mark: 'IN', tone: 'brand-infinix' },
   { name: 'realme', slug: 'realme', mark: 'realme', tone: 'brand-realme' },
   { name: 'TECNO', slug: 'tecno', mark: 'TECNO', tone: 'brand-tecno' },
+  { name: 'Huawei', slug: 'huawei', mark: 'HUAWEI', tone: 'brand-huawei' },
+  { name: 'itel', slug: 'itel', mark: 'itel', tone: 'brand-itel' },
+  { name: 'nubia', slug: 'nubia', mark: 'nubia', tone: 'brand-nubia' },
 ];
 
 export default async function Home() {
