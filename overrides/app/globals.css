@@ -17,3 +17,24 @@ body:has(main.home-store) > footer { display: none !important; }
 .catalog-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 24px;flex-wrap:wrap}.catalog-search{display:flex;align-items:center;gap:10px;flex:1;min-width:min(100%,280px);max-width:620px;padding:6px 7px 6px 14px;border:1px solid #dfe5ee;border-radius:14px;background:#fff}.catalog-search>span{font-size:22px;color:#7c8798}.catalog-search input{flex:1;min-width:0;border:0;outline:none;background:transparent;padding:9px 0;font:inherit;font-size:14px;color:#172033}.catalog-search button{border:0;border-radius:9px;background:#17191f;color:#fff;padding:10px 16px;font:inherit;font-size:12px;font-weight:800;cursor:pointer}.catalog-sort{display:flex;align-items:center;gap:9px;color:#7a8698;font-size:12px}.catalog-sort select{border:1px solid #dfe5ee;border-radius:11px;padding:11px 12px;background:#fff;color:#172033;font:inherit;font-weight:700;max-width:100%}@media(max-width:560px){.catalog-tools{align-items:stretch}.catalog-search{max-width:none;min-width:0;width:100%}.catalog-sort{justify-content:space-between}.catalog-sort select{flex:1}}
 
 .home-brand-mark img{display:block;width:auto;height:auto;max-width:104px;max-height:31px;object-fit:contain}.home-brand-mark.brand-apple img{max-width:28px;max-height:32px}.home-brand-mark.brand-samsung img{max-width:100px}.home-brand-mark.brand-xiaomi img{max-width:31px;max-height:31px}.home-brand-mark.brand-vivo img{max-width:72px}.home-brand-mark.brand-itel img{max-width:72px}.home-brand-mark.brand-nubia img{max-width:76px}
+
+/* Homepage segment shelves: entry, mid-range, high-end and flagship */
+.home-segments .home-section-heading{margin-bottom:36px}
+.home-segment{padding:25px 0 34px;border-top:1px solid #e7e9e3}
+.home-segment-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
+.home-segment-index{font-size:9px;font-weight:900;letter-spacing:.16em;color:#8a963e}
+.home-segment-heading h3{margin:7px 0 5px;font-size:clamp(24px,3vw,32px);letter-spacing:-.055em;line-height:1}
+.home-segment-heading p{margin:0;color:#777d82;font-size:12px;line-height:1.6}
+.home-segment-heading>a{white-space:nowrap;text-decoration:none;color:#262a2f;font-size:11px;font-weight:850}
+.home-segment-heading>a span{padding-left:8px;color:#82952f}
+.home-segment .grid-products{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.home-segment .product-card{border-radius:9px;box-shadow:0 5px 20px rgba(20,28,12,.035)}
+.home-segment .product-card:hover{box-shadow:0 15px 32px rgba(20,28,12,.09)}
+.home-segment-entry .home-segment-index{color:#7c8f39}
+.home-segment-mid .home-segment-index{color:#367c88}
+.home-segment-high .home-segment-index{color:#7b69a6}
+.home-segment-flagship .home-segment-index{color:#a67b2c}
+.home-segment-empty{padding:22px 0;color:#737a80;font-size:13px}
+.home-segment-empty a{color:#30352a;font-weight:800;margin-left:8px}
+@media(max-width:850px){.home-segment .grid-products{grid-template-columns:repeat(2,minmax(0,1fr))}.home-segment{padding:22px 0 27px}}
+@media(max-width:560px){.home-segment-heading{align-items:flex-start;gap:10px}.home-segment-heading h3{font-size:25px}.home-segment-heading p{max-width:240px;font-size:11px}.home-segment-heading>a{font-size:10px;padding-top:16px}.home-segment .grid-products{gap:10px}}
