@@ -33,7 +33,7 @@ export function ProductDetail({product}:any){
     <p className={v.available?'stock-ok':'stock-out'}>{v.available?'Stok tersedia':'Stok habis'}</p>
     {Number(v.price)<=0&&<p className="muted">Harga varian ini belum ditentukan. Silakan hubungi admin.</p>}
     <button className="button" disabled={!v.available||Number(v.price)<=0} onClick={()=>{try{addToCart({variantId:v.id,productId:product.id,productName:product.name,variantName:v.variant_name,sku:v.sku,price:Number(v.price),imageUrl:images[0]?.url||product.image_url,quantity:1});setCartMessage('Berhasil ditambahkan ke keranjang.')}catch{setCartMessage('Produk belum berhasil ditambahkan. Periksa pengaturan browser lalu coba lagi.')}}}>Tambah ke keranjang</button>
-    {cartMessage&&<div role="status" aria-live="polite" className="cart-add-feedback"><p>{cartMessage}</p>{cartMessage.startsWith('Berhasil')&&<Link href="/keranjang">Lihat keranjang →</Link>}</div>
+    {cartMessage&&<div role="status" aria-live="polite" className="cart-add-feedback"><p>{cartMessage}</p>{cartMessage.startsWith('Berhasil')&&<Link href="/keranjang">Lihat keranjang →</Link>}</div>}
    </div>}
   </div>
  </div>
