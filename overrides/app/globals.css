@@ -10,3 +10,6 @@
 /* Hide the shared layout chrome only when the redesigned storefront homepage is rendered. */
 body:has(main.home-store) > header { display: none !important; }
 body:has(main.home-store) > footer { display: none !important; }
+
+.cart-add-feedback{margin-top:12px;padding:12px 14px;border:1px solid #d7e8b2;border-radius:10px;background:#f7fbea;color:#35451c;font-size:13px}.cart-add-feedback p{margin:0 0 5px}.cart-add-feedback a{font-weight:800;color:#35451c;text-decoration:underline}
+.brand-huawei{color:#b51f43;font-size:12px}.brand-itel{color:#4a4fb4;font-size:18px}.brand-nubia{color:#9b1634;font-size:15px}
