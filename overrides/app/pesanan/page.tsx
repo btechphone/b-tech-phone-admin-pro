@@ -23,6 +23,7 @@ export default function Orders(){
    uploadedPath=path
    const {error}=await supabase.rpc('btp_submit_payment_proof',{p_payment_id:paymentId,p_proof_url:path})
    if(error)throw new Error('Gagal menyimpan bukti: '+error.message)
+   uploadedPath=undefined
    setMsg('Bukti pembayaran berhasil dikirim. Menunggu verifikasi admin.')
    setFiles(current=>{const next={...current};delete next[paymentId];return next})
    await load()
