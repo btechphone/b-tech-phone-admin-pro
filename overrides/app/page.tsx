@@ -3,17 +3,17 @@ import { getProducts } from '@/lib/server-catalog';
 import ProductCard from '@/components/ProductCard';
 
 const brands = [
-  { name: 'Samsung', slug: 'samsung', mark: 'S', tone: 'brand-samsung' },
-  { name: 'Apple', slug: 'apple', mark: '●', tone: 'brand-apple' },
-  { name: 'Vivo', slug: 'vivo', mark: 'vivo', tone: 'brand-vivo' },
-  { name: 'OPPO', slug: 'oppo', mark: 'OPPO', tone: 'brand-oppo' },
-  { name: 'Xiaomi', slug: 'xiaomi', mark: 'mi', tone: 'brand-xiaomi' },
-  { name: 'Infinix', slug: 'infinix', mark: 'IN', tone: 'brand-infinix' },
-  { name: 'realme', slug: 'realme', mark: 'realme', tone: 'brand-realme' },
-  { name: 'TECNO', slug: 'tecno', mark: 'TECNO', tone: 'brand-tecno' },
-  { name: 'Huawei', slug: 'huawei', mark: 'HUAWEI', tone: 'brand-huawei' },
-  { name: 'itel', slug: 'itel', mark: 'itel', tone: 'brand-itel' },
-  { name: 'nubia', slug: 'nubia', mark: 'nubia', tone: 'brand-nubia' },
+  { name: 'Samsung', slug: 'samsung', logo: 'https://cdn.simpleicons.org/samsung/1428A0', tone: 'brand-samsung' },
+  { name: 'Apple', slug: 'apple', logo: 'https://cdn.simpleicons.org/apple/111111', tone: 'brand-apple' },
+  { name: 'Vivo', slug: 'vivo', logo: 'https://cdn.simpleicons.org/vivo/415FFF', tone: 'brand-vivo' },
+  { name: 'OPPO', slug: 'oppo', logo: 'https://cdn.simpleicons.org/oppo/006B33', tone: 'brand-oppo' },
+  { name: 'Xiaomi', slug: 'xiaomi', logo: 'https://cdn.simpleicons.org/xiaomi/FF6900', tone: 'brand-xiaomi' },
+  { name: 'Infinix', slug: 'infinix', logo: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Infinix_logo.svg', tone: 'brand-infinix' },
+  { name: 'realme', slug: 'realme', logo: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Realme_logo_SVG.svg', tone: 'brand-realme' },
+  { name: 'TECNO', slug: 'tecno', logo: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Tecno_Mobile_logo.svg', tone: 'brand-tecno' },
+  { name: 'Huawei', slug: 'huawei', logo: 'https://cdn.simpleicons.org/huawei/E81F28', tone: 'brand-huawei' },
+  { name: 'itel', slug: 'itel', logo: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Itel_Mobile_logo_2023.svg', tone: 'brand-itel' },
+  { name: 'nubia', slug: 'nubia', logo: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Nubia_logo.svg', tone: 'brand-nubia' },
 ];
 
 export default async function Home() {
@@ -31,7 +31,7 @@ export default async function Home() {
         <div className="home-hero-art" aria-label="Ilustrasi smartphone"><div className="home-art-glow" /><div className="home-art-label label-top">NEW ARRIVALS <span>↗</span></div><div className="home-phone phone-back"><div className="phone-camera camera-one" /><div className="phone-camera camera-two" /><div className="phone-camera camera-three" /><div className="phone-shine" /></div><div className="home-phone phone-front"><div className="phone-notch" /><div className="phone-screen-orb orb-one" /><div className="phone-screen-orb orb-two" /><div className="phone-screen-text">MAKE IT<br /><b>YOURS.</b></div><div className="phone-screen-time">09:41</div></div><div className="home-art-label label-bottom"><b>TECH THAT MOVES YOU</b><span>01 / 04</span></div></div>
       </section>
       <section className="container home-benefits"><div><span className="benefit-icon">◇</span><span><b>Pilihan multi-brand</b><small>Temukan perangkat favoritmu</small></span></div><div><span className="benefit-icon">↗</span><span><b>Harga transparan</b><small>Harga tiap varian tersedia</small></span></div><div><span className="benefit-icon">◎</span><span><b>Dibantu admin</b><small>Tanya sebelum checkout</small></span></div></section>
-      <section className="container home-brand-section" id="brand"><div className="home-section-heading"><div><span className="home-kicker">SHOP BY BRAND</span><h2>Brand favorit, <em>satu tempat.</em></h2></div><Link href="/produk">Lihat semua produk <span>↗</span></Link></div><div className="home-brand-grid">{brands.map((brand) => <Link key={brand.name} href={`/produk?brand=${brand.slug}`} className="home-brand-card"><span className={`home-brand-mark ${brand.tone}`}>{brand.mark}</span><span className="home-brand-name">{brand.name}</span><span className="home-brand-arrow">↗</span></Link>)}</div></section>
+      <section className="container home-brand-section" id="brand"><div className="home-section-heading"><div><span className="home-kicker">SHOP BY BRAND</span><h2>Brand favorit, <em>satu tempat.</em></h2></div><Link href="/produk">Lihat semua produk <span>↗</span></Link></div><div className="home-brand-grid">{brands.map((brand) => <Link key={brand.name} href={`/produk?brand=${brand.slug}`} className="home-brand-card"><span className={`home-brand-mark ${brand.tone}`}><img src={brand.logo} alt={`${brand.name} logo`} loading="eager" /></span><span className="home-brand-name">{brand.name}</span><span className="home-brand-arrow">↗</span></Link>)}</div></section>
       <section className="home-featured" id="unggulan"><div className="container"><div className="home-section-heading"><div><span className="home-kicker">CURATED FOR YOU</span><h2>Perangkat pilihan <em>minggu ini.</em></h2><p>Mulai dari kebutuhan harian hingga performa yang lebih serius.</p></div><Link href="/produk">Jelajahi katalog <span>↗</span></Link></div><div className="grid-products">{products.slice(0, 8).map((p: any) => <ProductCard key={p.id} p={p} />)}</div></div></section>
       <section className="container home-contact"><div><span className="home-kicker">NEED A HAND?</span><h2>Masih bingung memilih?</h2><p>Hubungi admin kami untuk bertanya tentang produk, varian, dan proses pemesanan.</p></div><a href="https://wa.me/628565033160" className="home-primary">Chat SEPRI via WhatsApp <span>↗</span></a></section>
       <footer className="home-footer"><div className="container"><Link href="/" className="home-wordmark"><span className="home-logo">B</span><span>B-TECH <b>PHONE</b><small>SMARTER CHOICE. BETTER DEVICE.</small></span></Link><span>Temukan perangkat yang tepat untuk kebutuhanmu.</span><Link href="/produk">Lihat katalog ↗</Link></div></footer>
