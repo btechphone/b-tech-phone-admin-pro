@@ -13,14 +13,23 @@ export default function Orders(){
   const file=files[paymentId];if(!file)return setMsg('Pilih file bukti pembayaran terlebih dahulu.')
   if(!['image/jpeg','image/png','image/webp','application/pdf'].includes(file.type))return setMsg('Format harus JPG, PNG, WEBP, atau PDF.')
   if(file.size>5*1024*1024)return setMsg('Ukuran bukti pembayaran maksimal 5 MB.')
-  if(!user)return
+  if(!user)return setMsg('Sesi login tidak ditemukan. Silakan masuk kembali.')
   setBusy(paymentId);setMsg('')
-  const path=`${user.id}/${paymentId}-${Date.now()}.${ext(file.name)}`
-  const {error:uploadError}=await supabase.storage.from('btp-payment-proofs').upload(path,file,{contentType:file.type,upsert:false})
-  if(uploadError){setBusy(null);return setMsg('Upload gagal: '+uploadError.message)}
-  const {error}=await supabase.rpc('btp_submit_payment_proof',{p_payment_id:paymentId,p_proof_url:path})
-  if(error){await supabase.storage.from('btp-payment-proofs').remove([path]);setMsg('Gagal menyimpan bukti: '+error.message)}else{setMsg('Bukti pembayaran berhasil dikirim. Menunggu verifikasi admin.');setFiles({...files,[paymentId]:undefined as any});await load()}
-  setBusy(null)
+  let uploadedPath:string|undefined
+  try{
+   const path=`${user.id}/${paymentId}-${Date.now()}.${ext(file.name)}`
+   const {error:uploadError}=await supabase.storage.from('btp-payment-proofs').upload(path,file,{contentType:file.type,upsert:false})
+   if(uploadError)throw new Error('Upload gagal: '+uploadError.message)
+   uploadedPath=path
+   const {error}=await supabase.rpc('btp_submit_payment_proof',{p_payment_id:paymentId,p_proof_url:path})
+   if(error)throw new Error('Gagal menyimpan bukti: '+error.message)
+   setMsg('Bukti pembayaran berhasil dikirim. Menunggu verifikasi admin.')
+   setFiles(current=>{const next={...current};delete next[paymentId];return next})
+   await load()
+  }catch(error:any){
+   if(uploadedPath)try{await supabase.storage.from('btp-payment-proofs').remove([uploadedPath])}catch{}
+   setMsg(error?.message||'Terjadi gangguan saat mengirim bukti pembayaran. Periksa koneksi lalu coba kembali.')
+  }finally{setBusy(null)}
  }
  if(!user)return <main className="container" style={{padding:'50px 0'}}><h1>Pesanan</h1><p className="muted">Silakan masuk untuk melihat pesanan.</p><Link className="btn primary" href="/auth/login">Masuk</Link></main>
  return <main className="container" style={{padding:'40px 0'}}><h1>Pesanan Saya</h1>{msg&&<p>{msg}</p>}{!orders.length?<p className="muted">Belum ada pesanan.</p>:<div style={{display:'grid',gap:14}}>{orders.map(o=>{const p=o.btp_payments?.[0];return <article className="card" style={{padding:20}} key={o.id}><div style={{display:'flex',justifyContent:'space-between',gap:15,flexWrap:'wrap'}}><div><strong>{o.order_number}</strong><div className="muted">{new Date(o.created_at).toLocaleString('id-ID')}</div></div><span className="badge">{o.status}</span></div><h3>{money(Number(o.total_amount))}</h3>{p&&<div style={{borderTop:'1px solid #1e293b',paddingTop:14}}><div className="muted">Pembayaran: {p.status}</div>{p.status==='pending'&&<div style={{display:'flex',gap:8,marginTop:10,flexWrap:'wrap'}}><input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={e=>setFiles({...files,[p.id]:e.target.files?.[0] as File})} style={{flex:1,minWidth:240,padding:10,borderRadius:9}}/><button className="btn primary" disabled={busy===p.id} onClick={()=>submitProof(p.id)}>{busy===p.id?'Mengunggah...':'Kirim Bukti'}</button></div>}{p.status==='rejected'&&<><p>Ditolak: {p.rejection_reason||'silakan kirim ulang bukti.'}</p><div style={{display:'flex',gap:8,marginTop:10,flexWrap:'wrap'}}><input type="file" accept="image/jpeg,image/png,image/webp,application/pdf" onChange={e=>setFiles({...files,[p.id]:e.target.files?.[0] as File})} style={{flex:1,minWidth:240,padding:10,borderRadius:9}}/><button className="btn primary" disabled={busy===p.id} onClick={()=>submitProof(p.id)}>{busy===p.id?'Mengunggah...':'Kirim Ulang'}</button></div></>}</div>}{o.tracking_number&&<p className="muted">Resi: {o.tracking_number} {o.shipping_courier&&'· '+o.shipping_courier}</p>}</article>})}</div>}</main>
