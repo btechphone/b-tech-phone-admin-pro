@@ -5,8 +5,8 @@ import ProductCard from '@/components/ProductCard';
 
 type Segment = { id: string; title: string; subtitle: string; min: number; max: number; accent: string };
 const segments: Segment[] = [
-  { id: 'entry', title: 'Entry-Level', subtitle: 'Pilihan praktis untuk kebutuhan harian', min: 0, max: 2500000, accent: 'entry' },
-  { id: 'mid', title: 'Mid-Range', subtitle: 'Seimbang untuk kerja, hiburan, dan kamera', min: 2500000, max: 5000000, accent: 'mid' },
+  { id: 'entry', title: 'Entry-Level', subtitle: 'Pilihan praktis untuk kebutuhan harian', min: 0, max: 3500000, accent: 'entry' },
+  { id: 'mid', title: 'Mid-Range', subtitle: 'Seimbang untuk kerja, hiburan, dan kamera', min: 3500000, max: 5000000, accent: 'mid' },
   { id: 'high', title: 'High-End', subtitle: 'Performa dan fitur premium', min: 5000000, max: 10000000, accent: 'high' },
   { id: 'flagship', title: 'Flagship', subtitle: 'Teknologi unggulan dari lini teratas', min: 10000000, max: Number.POSITIVE_INFINITY, accent: 'flagship' },
 ];
