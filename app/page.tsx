@@ -9,7 +9,7 @@ const categories = [
   { label: 'Flagship', icon: '✦', href: '/produk' },
   { label: 'Aksesoris', icon: '⌁', href: '/produk' },
 ];
-const brands = ['Samsung', 'Apple', 'Vivo', 'OPPO', 'Xiaomi', 'Infinix', 'TECNO', 'itel', 'Nubia', 'Realme', 'Huawei'];
+const brands = [{label:'Samsung',slug:'samsung'},{label:'Apple',slug:'apple'},{label:'Vivo',slug:'vivo'},{label:'OPPO',slug:'oppo'},{label:'Xiaomi',slug:'xiaomi'},{label:'Infinix',slug:'infinix'},{label:'TECNO',slug:'tecno'},{label:'itel',slug:'itel'},{label:'Nubia',slug:'nubia'},{label:'Realme',slug:'realme'},{label:'Huawei',slug:'huawei'}];
 
 export default async function Home() {
   const products = await getProducts();
@@ -46,7 +46,7 @@ export default async function Home() {
     </section>
     <section className="container market-brands">
       <div className="market-section-head"><div><span className="market-kicker">BRAND FAVORIT</span><h2>Temukan brand pilihanmu</h2></div></div>
-      <div className="brand-pills">{brands.map((b,i)=><Link href={'/produk?brand='+encodeURIComponent(b)} key={b} className="brand-pill"><span className={'brand-initial brand-initial-'+(i%6)}>{b==='Apple'?'●':b.slice(0,1)}</span>{b}<span className="pill-arrow">↗</span></Link>)}</div>
+      <div className="brand-pills">{brands.map((b,i)=><Link href={'/produk?brand='+b.slug} key={b.slug} className="brand-pill"><span className={'brand-initial brand-initial-'+(i%6)}>{b.label==='Apple'?'●':b.label.slice(0,1)}</span>{b.label}<span className="pill-arrow">↗</span></Link>)}</div>
     </section>
     <section className="market-promo-wrap"><div className="container"><div className="market-promo"><div><span className="market-kicker">SHOP SMARTER</span><h2>Gadget yang pas,<br/>pilihan yang lebih yakin.</h2><p>Butuh rekomendasi? Tanyakan produk dan varian yang sesuai kebutuhanmu.</p><a href="https://wa.me/628565033160" className="promo-button">Konsultasi via WhatsApp ↗</a></div><div className="promo-art"><span className="promo-disc disc-a" /><span className="promo-disc disc-b" /><span className="promo-phone">B<span>+</span></span><span className="promo-spark">✦</span></div></div></div></section>
     <section className="container market-products">
